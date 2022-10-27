@@ -1,0 +1,251 @@
+diff --git a/display/hal/default_standard/src/display_device/drm_device.cpp b/display/hal/default_standard/src/display_device/drm_device.cpp
+index 6f2c68d..2460236 100644
+--- a/display/hal/default_standard/src/display_device/drm_device.cpp
++++ b/display/hal/default_standard/src/display_device/drm_device.cpp
+@@ -16,7 +16,9 @@
+ #include "drm_device.h"
+ #include <string>
+ #include <errno.h>
++#include <unistd.h>
+ #include <fcntl.h>
++#include <dirent.h>
+ #include <memory>
+ #include <drm_fourcc.h>
+ #include "display_common.h"
+@@ -28,14 +30,64 @@ namespace DISPLAY {
+ FdPtr DrmDevice::mDrmFd = nullptr;
+ std::shared_ptr<DrmDevice> DrmDevice::mInstance;
+ 
++static int OpenKmsCard(DIR *dir, struct dirent *d) {
++    int fd;
++    drmModeResPtr res;
++
++    fd = openat(dirfd(dir), d->d_name, O_RDWR | O_CLOEXEC);
++
++    if (fd < 0) {
++        goto err;
++    }
++    res = drmModeGetResources(fd);
++    if (res == NULL) {
++        goto err_fd;
++    }
++    if (res->count_crtcs <= 0 ||
++        res->count_connectors <= 0 ||
++	    res->count_encoders <= 0) {
++        goto err_res;
++    }
++    drmModeFreeResources(res);
++    return fd;
++
++err_res:
++    drmModeFreeResources(res);
++err_fd:
++    close(fd);
++err:
++    return -1;
++}
++
++static int FindAndOpenKmsCard() {
++    DIR *dir;
++    struct dirent *d;
++    int fd = -1;
++
++    dir = opendir("/dev/dri");
++    if (!dir) {
++        return -1;
++    }
++    while ((d = readdir(dir))) {
++        if (strncmp(d->d_name, "card", 4)) {
++            continue;
++        }
++        fd = OpenKmsCard(dir, d);
++        if (fd >= 0) {
++            break;
++        }
++    }
++    closedir(dir);
++    return fd;
++}
++
+ std::shared_ptr<HdiDeviceInterface> DrmDevice::Create()
+ {
+     DISPLAY_LOGD();
+     if (mDrmFd == nullptr) {
+-        const std::string name("hisilicon");
+-        int drmFd = drmOpen(name.c_str(), nullptr);
++        int drmFd = FindAndOpenKmsCard();
+         if (drmFd < 0) {
+-            DISPLAY_LOGE("drm file:%{public}s open failed %{public}s", name.c_str(), strerror(errno));
++            DISPLAY_LOGE("can't open drm card device");
+             return nullptr;
+         }
+         DISPLAY_LOGD("the drm fd is %{public}d", drmFd);
+diff --git a/display/hdi_service/gralloc/client/BUILD.gn b/display/hdi_service/gralloc/client/BUILD.gn
+index ac30a8c..329ffd2 100644
+--- a/display/hdi_service/gralloc/client/BUILD.gn
++++ b/display/hdi_service/gralloc/client/BUILD.gn
+@@ -50,6 +50,7 @@ ohos_shared_library("libhdi_display_gralloc_client") {
+     "$hdf_uhdf_path/utils:libhdf_utils",
+     "//foundation/communication/ipc/interfaces/innerkits/ipc_core:ipc_core",
+     "//utils/native/base:utils",
++    "//drivers/peripheral/display/hal/default_standard:def_display_gralloc",
+   ]
+ 
+   if (is_standard_system) {
+diff --git a/display/hdi_service/gralloc/client/display_gralloc_client.cpp b/display/hdi_service/gralloc/client/display_gralloc_client.cpp
+index 2b309e9..094071e 100644
+--- a/display/hdi_service/gralloc/client/display_gralloc_client.cpp
++++ b/display/hdi_service/gralloc/client/display_gralloc_client.cpp
+@@ -36,82 +36,95 @@ IDisplayGralloc *IDisplayGralloc::Get()
+  
+ DisplayGrallocClient::DisplayGrallocClient()
+ {
+-    mapperAdapter_ = std::make_shared<MapperAdapter>();
+-    if (mapperAdapter_ == nullptr) {
+-        return;
+-    }
++    // mapperAdapter_ = std::make_shared<MapperAdapter>();
++    // if (mapperAdapter_ == nullptr) {
++    //     return;
++    // }
+ 
+-    allocatorProxy_ = IDisplayAllocator::Get("hdi_display_gralloc_service");
+-    if (allocatorProxy_ == nullptr) {
+-        return;
+-    }
+-    HDF_LOGI("%{public}s instance ok", __func__);
++    // allocatorProxy_ = IDisplayAllocator::Get("hdi_display_gralloc_service");
++    // if (allocatorProxy_ == nullptr) {
++    //     return;
++    // }
++    // HDF_LOGI("%{public}s instance ok", __func__);
++    GrallocInitialize(&gralloc_funcs);
+ }
+ 
+ int32_t DisplayGrallocClient::AllocMem(const AllocInfo &info, BufferHandle *&handle) const
+ {
+-    if (allocatorProxy_ == nullptr) {
+-        HDF_LOGE("%{public}s: allocatorProxy_ is null", __func__);
++    // if (allocatorProxy_ == nullptr) {
++    //     HDF_LOGE("%{public}s: allocatorProxy_ is null", __func__);
++    //     return DISPLAY_FAILURE;
++    // }
++    // auto ret = allocatorProxy_->AllocMem(info, handle);
++    // return ret;
++    if (gralloc_funcs  == nullptr) {
++        HDF_LOGE("%{public}s: gralloc_funcs is null", __func__);
+         return DISPLAY_FAILURE;
+     }
+-    auto ret = allocatorProxy_->AllocMem(info, handle);
+-    return ret;
++    return gralloc_funcs->AllocMem(&info, &handle);
+ }
+ 
+ void DisplayGrallocClient::FreeMem(const BufferHandle &handle) const
+ {
+-    mapperAdapter_->FreeBuffer(handle);
++    // mapperAdapter_->FreeBuffer(handle);
++    gralloc_funcs->FreeMem(const_cast<BufferHandle*>(&handle));
+ }
+ 
+ void* DisplayGrallocClient::Mmap(const BufferHandle &handle) const
+ {
+-    void* data = nullptr;
+-    int32_t ret = mapperAdapter_->MapBuffer(handle, data);
+-    if (ret != DISPLAY_SUCCESS) {
+-        FreeMem(handle);
+-        HDF_LOGE("%{public}s: DisplayGrallocClient::Mmap, mapBuffer failed", __func__);
+-        return nullptr;
+-    }
+-    return data;
++    // void* data = nullptr;
++    // int32_t ret = mapperAdapter_->MapBuffer(handle, data);
++    // if (ret != DISPLAY_SUCCESS) {
++    //     FreeMem(handle);
++    //     HDF_LOGE("%{public}s: DisplayGrallocClient::Mmap, mapBuffer failed", __func__);
++    //     return nullptr;
++    // }
++    // return data;
++    return gralloc_funcs->Mmap(const_cast<BufferHandle*>(&handle));
+ }
+ 
+ int32_t DisplayGrallocClient::Unmap(const BufferHandle &handle) const
+ {
+-    auto ret = mapperAdapter_->UnmapBuffer(handle);
+-    if (ret != DISPLAY_SUCCESS) {
+-        HDF_LOGE("%{public}s: failed, ret %{public}d", __func__, ret);
+-    } 
+-    return ret;
++    // auto ret = mapperAdapter_->UnmapBuffer(handle);
++    // if (ret != DISPLAY_SUCCESS) {
++    //     HDF_LOGE("%{public}s: failed, ret %{public}d", __func__, ret);
++    // } 
++    // return ret;
++    return gralloc_funcs->Unmap(const_cast<BufferHandle*>(&handle));
+ }
+ 
+ int32_t DisplayGrallocClient::FlushCache(const BufferHandle &handle) const
+ {
+-    auto ret = mapperAdapter_->FlushCache(handle);
+-    if (ret != DISPLAY_SUCCESS) {
+-        HDF_LOGE("%{public}s: failed, ret %{public}d", __func__, ret);
+-    } 
+-    return ret;
++    // auto ret = mapperAdapter_->FlushCache(handle);
++    // if (ret != DISPLAY_SUCCESS) {
++    //     HDF_LOGE("%{public}s: failed, ret %{public}d", __func__, ret);
++    // } 
++    // return ret;
++    return gralloc_funcs->FlushCache(const_cast<BufferHandle*>(&handle));
+ }
+ 
+ int32_t DisplayGrallocClient::InvalidateCache(const BufferHandle &handle) const
+ {
+-    auto ret = mapperAdapter_->InvalidateCache(handle);
+-    if (ret != DISPLAY_SUCCESS) {
+-        HDF_LOGI("%{public}s: failed, ret %{public}d", __func__, ret);
+-    } 
+-    return ret;
++    // auto ret = mapperAdapter_->InvalidateCache(handle);
++    // if (ret != DISPLAY_SUCCESS) {
++    //     HDF_LOGI("%{public}s: failed, ret %{public}d", __func__, ret);
++    // } 
++    // return ret;
++    return gralloc_funcs->InvalidateCache(const_cast<BufferHandle*>(&handle));
+ }
+ 
+ void* DisplayGrallocClient::MmapCache(const BufferHandle &handle) const
+ {
+-    (void)handle;
+-    return nullptr;
++    // (void)handle;
++    // return nullptr;
++    return gralloc_funcs->MmapCache(const_cast<BufferHandle*>(&handle));
+ }
+ 
+ int32_t DisplayGrallocClient::FlushMCache(const BufferHandle &handle) const
+ {
+-    (void)handle;
+-    return DISPLAY_NOT_SUPPORT;
++    // (void)handle;
++    // return DISPLAY_NOT_SUPPORT;
++    return gralloc_funcs->FlushMCache(const_cast<BufferHandle*>(&handle));
+ }
+ } // namespace V1_0
+ } // namespace Display
+diff --git a/display/hdi_service/gralloc/client/display_gralloc_client.h b/display/hdi_service/gralloc/client/display_gralloc_client.h
+index d837ae4..ed918ff 100644
+--- a/display/hdi_service/gralloc/client/display_gralloc_client.h
++++ b/display/hdi_service/gralloc/client/display_gralloc_client.h
+@@ -41,8 +41,9 @@ public:
+     virtual int32_t InvalidateCache(const BufferHandle& handle) const override;
+ 
+ private:
+-    std::shared_ptr<MapperAdapter> mapperAdapter_;
+-    sptr<IDisplayAllocator> allocatorProxy_;
++    // std::shared_ptr<MapperAdapter> mapperAdapter_;
++    // sptr<IDisplayAllocator> allocatorProxy_;
++    GrallocFuncs *gralloc_funcs;
+ };
+ } // namespace V1_0
+ } // namespace Display

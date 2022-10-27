@@ -1,0 +1,64 @@
+diff --git a/BUILD.gn b/BUILD.gn
+index 7b1102e..0213525 100755
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -302,6 +302,7 @@ ohos_executable("weston") {
+   deps = [
+     ":libexec_weston",
+     ":trace",
++    "//third_party/libdrm/tests/modetest:modetest",
+   ]
+ 
+   public_deps = []
+diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
+index 8308d24..dcc6830 100755
+--- a/libweston/backend-drm/drm.c
++++ b/libweston/backend-drm/drm.c
+@@ -2867,21 +2867,36 @@ static const struct weston_drm_output_api api = {
+ static void
+ ohos_drm_vsync_thread_main(void *backend)
+ {
++	static const int64_t period_ns = 1e9 / 60;
++	int64_t delay_ns;
++
+ 	struct drm_backend *b = backend;
++	struct timespec now_ts, next_ts;
++
++	clock_gettime(CLOCK_MONOTONIC, &next_ts);
+ 	while (b->vsync_thread_running) {
+-		drmVBlank vbl = {
+-			.request = {
+-				.type = DRM_VBLANK_RELATIVE | drm_waitvblank_pipe_vsync(b->pipe),
+-				.sequence = 1,
+-			},
+-		};
+-		if (drmWaitVBlank(b->drm.fd, &vbl) != 0) {
+-			weston_log("Failed to drmWaitVBlank (the first vblank event), because %{public}d", errno);
+-			sleep(0);
++		// drmVBlank vbl = {
++		// 	.request = {
++		// 		.type = DRM_VBLANK_RELATIVE | drm_waitvblank_pipe_vsync(b->pipe),
++		// 		.sequence = 1,
++		// 	},
++		// };
++		// if (drmWaitVBlank(b->drm.fd, &vbl) != 0) {
++		// 	weston_log("Failed to drmWaitVBlank (the first vblank event), because %{public}d", errno);
++		// 	sleep(0);
++		// } else {
++		// 	VsyncModuleTrigger();
++		// 	StopSoftVsyncThread();
++		// }
++		timespec_add_nsec(&next_ts, &next_ts, period_ns);
++		clock_gettime(CLOCK_MONOTONIC, &now_ts);
++		delay_ns = timespec_sub_to_nsec(&next_ts, &now_ts) / 1000;
++		if (delay_ns > 0) {
++			usleep(delay_ns / 1000);
+ 		} else {
+-			VsyncModuleTrigger();
+-			StopSoftVsyncThread();
++			next_ts = now_ts;
+ 		}
++		VsyncModuleTrigger();
+ 	}
+ }
+ 
