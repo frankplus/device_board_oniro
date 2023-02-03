@@ -1,0 +1,10 @@
+{
+    "subsystem": "rpi4_small_products",
+    "parts": {
+        "rpi4_small_products": {
+            "module_list": [
+                "//device/board/raspberrypi/rpi4_small:device_rpi4_small"
+            ]
+        }
+    }
+}
