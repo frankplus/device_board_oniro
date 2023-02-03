@@ -1,0 +1,8 @@
+# Copyright (C) 2020 Hisilicon (Shanghai) Technologies Co., Ltd. All rights reserved.
+
+group("device_rpi4_small") {
+  deps = [
+    # "//device/soc/hisilicon/common/platform/wifi/hi3881v100/firmware:wifi_firmware",
+    "linux:rpi4_small_group",
+  ]
+}

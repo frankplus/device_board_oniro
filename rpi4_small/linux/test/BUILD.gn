@@ -1,0 +1,22 @@
+
+import("//build/lite/config/component/lite_component.gni")
+
+executable("modeset_single_buffer") {
+  output_name = "modeset_single_buffer"
+
+  sources = [
+    "modeset_single_buffer/modeset_single_buffer.c",
+  ]
+
+  deps = [
+    "//third_party/libdrm:libdrm",
+  ]
+
+}
+
+group("test") {
+  deps = [
+    ":modeset_single_buffer",
+  ]
+
+}
