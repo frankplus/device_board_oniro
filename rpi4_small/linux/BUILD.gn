@@ -1,0 +1,16 @@
+# Copyright (C) 2021 Hisilicon (Shanghai) Technologies Co., Ltd. All rights reserved.
+
+import("//build/ohos.gni")
+
+print("rpi4_small_group in")
+group("rpi4_small_group") {
+  deps = [
+    # "distributedhardware:distributedhardware",
+    # "images:all_image_conf",
+    # "system:sys_files",
+    # "system/cfg:init_configs",
+    # "updater:updater_files",
+    "kernel:rpi4_small_kernel",
+    "test:test"
+  ]
+}
