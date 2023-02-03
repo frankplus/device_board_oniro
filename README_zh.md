@@ -16,19 +16,27 @@
 
 树莓派3B（Raspberry Pi 3 Model B）。 树莓派3B 包含了集成 802.11 b/g/n 无线 LAN、传统蓝牙、低功耗蓝牙 (BLE) 功能。该系列还包括更快的运行速率达 1.2 GHz 的四核 Cortex® A53 处理器。 树莓派3B具有良好的兼容性，即几乎完全兼容树莓派2代配件。
 
+- [树莓派4B]
+
+树莓派4B（Raspberry Pi 4 Model B）。 树莓派4B代码由[Diemit](https://gitee.com/diemit)提供。
+
 
 ## 目录
 
 ```
 device/board/iscas
 ├── rpi3                                # 树莓派3b开发板
+├── rpi4                                # 树莓派4b开发板
 └── ...
 ```
 
 ## 使用说明
 
 树莓派3b参考：
-- [树莓派3b](https://gitee.com/openharmony/device_board_iscas/rpi3/README_zh.md)
+- [树莓派3b](https://gitee.com/openharmony-sig/device_board_iscas/blob/OpenHarmony-3.2-Beta4/rpi3/README_zh.md)
+
+树莓派4b参考：
+- [树莓派4b](https://gitee.com/openharmony-sig/device_board_iscas/blob/OpenHarmony-3.2-Beta4/rpi4/README_zh.md)
 
 
 ## 相关仓
