@@ -4,7 +4,7 @@
 set -e
 
 PROJECT_ROOT=/home/diemit/OpenHarmony
-PRODUCT_PATH=vendor/raspberrypi/rpi4
+PRODUCT_PATH=vendor/iscas/rpi4
 KERNEL_ARCH=arm64
 KERNEL_VERSION=linux-5.10
 KERNEL_IMAGE=Image

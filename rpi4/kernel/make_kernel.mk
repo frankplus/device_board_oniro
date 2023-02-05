@@ -1,8 +1,8 @@
 
 # ohos makefile to build kernel
 
-KERNEL_CONFIG_PATH = $(PROJECT_ROOT)/device/board/raspberrypi/rpi4/kernel/configs
-export INSTALL_MOD_PATH := $(PROJECT_ROOT)/device/board/raspberrypi/rpi4/modules
+KERNEL_CONFIG_PATH = $(PROJECT_ROOT)/device/board/iscas/rpi4/kernel/configs
+export INSTALL_MOD_PATH := $(PROJECT_ROOT)/device/board/iscas/rpi4/modules
 PREBUILTS_GCC_DIR := $(PROJECT_ROOT)/prebuilts/gcc
 PREBUILTS_CLANG_DIR := $(PROJECT_ROOT)/prebuilts/clang
 CLANG_HOST_TOOLCHAIN := $(PROJECT_ROOT)/prebuilts/clang/ohos/linux-x86_64/llvm/bin
