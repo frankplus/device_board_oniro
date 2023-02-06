@@ -25,7 +25,7 @@ if (target_cpu == "arm") {
   kernel_image = "zImage"
   defconfig_file = "bcm2711_oh_32_defconfig"
 } else if (target_cpu == "arm64") {
-    kernel_image = "Image"
+    kernel_image = "Image.gz"
     defconfig_file = "bcm2711_oh_defconfig"
 }
 
