@@ -7,7 +7,7 @@ PROJECT_ROOT=/home/diemit/OpenHarmony
 PRODUCT_PATH=vendor/iscas/rpi4
 KERNEL_ARCH=arm64
 KERNEL_VERSION=linux-5.10
-KERNEL_IMAGE=Image
+KERNEL_IMAGE=Image.gz
 DEFCONFIG_FILE=bcm2711_oh_defconfig
 OUT_PKG_DIR=${PROJECT_ROOT}/out/rpi4/packages/phone/images
 

@@ -42,11 +42,11 @@ gpu_mem=256
 
 
 enable_uart=1
-arm_64bit=0
+arm_64bit=1
 # 默认就是8000
 #kernel_address=0x8000
 
-kernel=zImage
+kernel=Image.gz
 
 #ramdisk
 #initramfs ramdisk.img followkernel
