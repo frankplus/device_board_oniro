@@ -1,4 +1,4 @@
-# Copyright (c) 2021 HiHope Open Source Organization .
+# Copyright (c) 2022 Diemit <598757652@qq.com>
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -19,15 +19,9 @@ linux_kernel_version = "linux-5.10"
 kernel_source_dir = "//kernel/linux/$linux_kernel_version"
 
 # 判断内核编译类型
-kernel_image = ""
-defconfig_file = ""
-if (target_cpu == "arm") {
-  kernel_image = "zImage"
-  defconfig_file = "bcm2711_oh_32_defconfig"
-} else if (target_cpu == "arm64") {
-    kernel_image = "Image.gz"
-    defconfig_file = "bcm2711_oh_defconfig"
-}
+
+kernel_image = "Image.gz"
+defconfig_file = "bcm2711_oh_defconfig"
 
 group("rpi4_kernel") {
 
@@ -40,7 +34,7 @@ group("rpi4_kernel") {
 
 action("check_patch") {
   script = "check_patch.sh"
-  outputs = [ "$root_out_dir/../KERNEL_OBJ/kernel/src_tmp/$linux_kernel_version" ]
+  outputs = [ "$root_out_dir/../kernel/src_tmp/$linux_kernel_version" ]
 
   args = [
     rebase_path("//"),

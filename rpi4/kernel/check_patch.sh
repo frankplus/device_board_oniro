@@ -1,9 +1,22 @@
 #!/bin/bash
+# Copyright (c) 2022 Diemit <598757652@qq.com>
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 set -e
 
 PROJECT_ROOT=$1
 KERNEL_VERSION=$2
-OUT_DIR=${PROJECT_ROOT}/out/KERNEL_OBJ
+OUT_DIR=${PROJECT_ROOT}/out
 KERNEL_SRC_PATH=${PROJECT_ROOT}/kernel/linux/${KERNEL_VERSION}
 KERNEL_SRC_TMP_PATH=${OUT_DIR}/kernel/src_tmp/${KERNEL_VERSION}
 PATCHES_PATH=${PROJECT_ROOT}/device/board/iscas/rpi4/patches
