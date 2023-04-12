@@ -12,5 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#bluetooth
+modprobe hci_uart
+modprobe bnep
+modprobe rfcomm
 modprobe bluetooth
+
+#wifi
 modprobe brcmfmac

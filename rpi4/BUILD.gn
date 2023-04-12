@@ -21,6 +21,7 @@ group("rpi4_group") {
     "kernel:rpi4_kernel",
     "//device/soc/broadcom/bcm2711/standard/hardware:hardware_group",
     "firmware:firmware",
+    "bluetooth:libbt_vendor",
     "modules:modules_group",
     "test:test",
     "//vendor/${product_company}/rpi4/sample:sample_group"
