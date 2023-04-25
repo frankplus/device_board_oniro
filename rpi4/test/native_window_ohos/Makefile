@@ -1,28 +1,23 @@
 OHOS_ROOT = /home/diemit/OpenHarmony
-CC = $(OHOS_ROOT)/prebuilts/clang/ohos/linux-x86_64/llvm/bin/clang --sysroot=$(OHOS_ROOT)/out/rpi4/obj/third_party/musl
-CXX = $(OHOS_ROOT)/prebuilts/clang/ohos/linux-x86_64/llvm/bin/clang++ --sysroot=$(OHOS_ROOT)/out/rpi4/obj/third_party/musl
+CC = $(OHOS_ROOT)/prebuilts/clang/ohos/linux-x86_64/llvm/bin/clang --sysroot=$(OHOS_ROOT)/out/sagit/obj/third_party/musl
+CXX = $(OHOS_ROOT)/prebuilts/clang/ohos/linux-x86_64/llvm/bin/clang++ --sysroot=$(OHOS_ROOT)/out/sagit/obj/third_party/musl
 AR = $(OHOS_ROOT)/prebuilts/clang/ohos/linux-x86_64/llvm/bin/llvm-ar
 LD = $(OHOS_ROOT)/prebuilts/clang/ohos/linux-x86_64/llvm/bin/llvm-link
 ARFLAG = -rcs
 
-TARGET = native_main
+TARGET = gl_test
 PROJECT_PATH = $(shell pwd)
 
-CFLAGS := -march=armv7-a \
-	-mfloat-abi=softfp \
-	-mtune=generic-armv7-a \
-	-mfpu=neon \
-	-mthumb \
-	--target=arm-linux-ohosmusl \
-	--sysroot=$(OHOS_ROOT)/out/rpi4/obj/third_party/musl
+CFLAGS := --target=aarch64-linux-ohosmusl \
+	--sysroot=$(OHOS_ROOT)/out/sagit/obj/third_party/musl
 
 # Warning
 CFLAGS += -Wno-c++11-narrowing
 
 # Lib
 CLIBS = -lm -ldl -lrt
-CLIBS += -L$(OHOS_ROOT)/device/soc/broadcom/bcm2711/standard/hardware/gpu/lib -lgallium_dri
-CLIBS += -L$(OHOS_ROOT)/out/rpi4/packages/phone/system/lib -lhilog -lsurface.z -lutils.z
+CLIBS += -L$(OHOS_ROOT)/device/soc/qualcomm/msm8998/hardware/gpu/lib64 -lgallium_dri
+CLIBS += -L$(OHOS_ROOT)/out/sagit/packages/phone/system/lib64 -lhilog -lsurface.z -lutils.z
 
 CFLAGS += -DOHOS_USE_DRM -DOHOS_USE_GLESv2 -DOHOS_USE_EGL
 INCLUDE_DIRS += \

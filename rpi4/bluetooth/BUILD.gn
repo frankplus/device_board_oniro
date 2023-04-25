@@ -50,6 +50,8 @@ ohos_shared_library("libbt_vendor") {
 
   configs = [ ":bt_warnings" ]
 
+  deps = [":bt_vendor.conf"]
+
   external_deps = [
     "c_utils:utils",
     "hiviewdfx_hilog_native:libhilog",
@@ -60,4 +62,12 @@ ohos_shared_library("libbt_vendor") {
 
   part_name = "raspberrypi_products"
   subsystem_name = "raspberrypi_products"
+}
+
+ohos_prebuilt_etc("bt_vendor.conf") {
+  source = "bt_vendor.conf"
+  part_name = "raspberrypi_products"
+  install_images = [ vendor_base_dir ]
+  module_install_dir = "etc/bluetooth/"
+  install_enable = true
 }
