@@ -8,8 +8,16 @@ hdmi_drive=2
 #config_hdmi_boost=4
 
 # 这两个参数一起使用
-hdmi_group=1
-hdmi_mode=1
+#CEA显示分辨率模式（电视）
+#hdmi_group=1
+#1920×1080
+#hdmi_mode=16
+
+
+#DMT显示分辨率模式（显示器）
+hdmi_group=2
+#1920×1080
+hdmi_mode=82
 
 # 将disable_scan设置为1，禁用firmware设置的默认扫描值。对于高清CEA模式，扫描左、右、上、下边缘的默认值为48,SD CEA模式为32,DMT模式为0。disable_scan的默认值是0。
 #disable_overscan=1
@@ -38,7 +46,7 @@ avoid_warnings=2
 #start_x=1
 
 # 指定GPU独占使用多少内存
-gpu_mem=256
+gpu_mem=512
 
 
 enable_uart=1
