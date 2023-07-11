@@ -21,7 +21,7 @@ KERNEL_SRC_PATH=${PROJECT_ROOT}/kernel/linux/${KERNEL_VERSION}
 KERNEL_SRC_TMP_PATH=${OUT_DIR}/kernel/src_tmp/${KERNEL_VERSION}
 PATCHES_PATH=${PROJECT_ROOT}/device/board/iscas/rpi4/patches
 HDF_PATCH_FILE=${PATCHES_PATH}/hdf.patch
-KERNEL_PATCH=${PATCHES_PATH}/rpi4.patch
+KERNEL_PATCH=${PATCHES_PATH}/0001-rpi4.patch
 
 if [ ! -d "${KERNEL_SRC_TMP_PATH}" ];then
     mkdir -p ${KERNEL_SRC_TMP_PATH}

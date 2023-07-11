@@ -156,10 +156,10 @@ static int op(bt_opcode_t opcode, void *param)
 
         case BT_OP_HCI_CHANNEL_OPEN: { // BT_VND_OP_USERIAL_OPEN
             int(*fd_array)[] = (int(*)[])param;
-            int fd, idx;
+            int fd;
             fd = userial_vendor_open((tUSERIAL_CFG *)&userial_init_cfg);
             if (fd != -1) {
-                for (idx = 0; idx < HCI_MAX_CHANNEL; idx++)
+                for (int idx = 0; idx < HCI_MAX_CHANNEL; idx++)
                     (*fd_array)[idx] = fd;
 
                 retval = 1;

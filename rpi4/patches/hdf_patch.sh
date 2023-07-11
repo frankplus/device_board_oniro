@@ -20,9 +20,10 @@ KERNEL_BUILD_ROOT=$2
 HDF_PATCH_FILE=$3
 
 ln_list=(
-    $OHOS_SOURCE_ROOT/drivers/hdf_core/adapter/khdf/linux    drivers/hdf/khdf
-    $OHOS_SOURCE_ROOT/drivers/hdf_core/framework             drivers/hdf/framework
-    $OHOS_SOURCE_ROOT/drivers/hdf_core/framework/include     include/hdf
+    drivers/hdf_core/adapter/khdf/linux    drivers/hdf/khdf
+    drivers/hdf_core/framework             drivers/hdf/framework
+    drivers/hdf_core/interfaces/inner_api  drivers/hdf/inner_api
+    drivers/hdf_core/framework/include     include/hdf
 )
 
 cp_list=(
@@ -37,7 +38,7 @@ function copy_external_compents()
     do
         dst_dir=${cp_list[$(expr $i + 1)]}/${cp_list[$i]##*/}
         mkdir -p $dst_dir
-        [ -d ${cp_list[$i]}/ ] && cp -arfL ${cp_list[$i]}/* $dst_dir/
+        [ -d "${cp_list[$i]}"/ ] && cp -arfL ${cp_list[$i]}/* $dst_dir/
     done
 }
 
@@ -45,7 +46,8 @@ function ln_hdf_repos()
 {
     for ((i=0; i<${#ln_list[*]}; i+=2))
     do
-        ln -sf ${ln_list[$i]} ${ln_list[$(expr $i + 1)]}
+        SOFT_RELATIVE_PATH=$(realpath --relative-to=${ln_list[$(expr $i + 1)]} ${OHOS_SOURCE_ROOT})
+        ln -sf ${SOFT_RELATIVE_PATH#*/}/${ln_list[$i]} ${ln_list[$(expr $i + 1)]}
     done
 }
 
