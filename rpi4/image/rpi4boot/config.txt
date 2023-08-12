@@ -57,7 +57,7 @@ arm_64bit=1
 kernel=Image.gz
 
 #ramdisk
-#initramfs ramdisk.img followkernel
+initramfs ramdisk.img followkernel
 
 #core_freq=250
 

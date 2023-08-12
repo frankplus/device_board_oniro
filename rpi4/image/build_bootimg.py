@@ -72,6 +72,10 @@ def make_boot_img():
         os.path.join(kernel_dir, 'arch/arm64/boot/Image.gz'),
         boot_dir
     )
+    shutil.copy(
+        os.path.join(output_dir, 'images/ramdisk.img'),
+        boot_dir
+    )
     # shutil.copy(
     #     os.path.join(kernel_dir, 'arch/arm/boot/dts/bcm2711-rpi-4-b.dtb'),
     #     boot_dir

@@ -1,0 +1,36 @@
+{
+    "name": "@ohos/raspberrypi_products",
+    "version": "3.1",
+    "license": "Apache License 2.0",
+    "private": false,
+    "scripts": {},
+    "dirs": [""],
+    "component": {
+      "name": "raspberrypi_products",
+      "subsystem": "raspberrypi_products",
+      "syscap": [],
+      "features": [],
+      "deps": {
+        "components": [
+          "c_utils",
+          "hilog",
+          "hdf_core",
+          "drivers_interface_display",
+          "hitrace",
+          "ipc",
+          "graphic_chipsetsdk"
+        ],
+        "third_party": [
+          "libdrm"
+        ]
+      },
+      "build": {
+        "sub_component": [
+          "//device/board/iscas/rpi4:rpi4_group"
+        ],
+        "test": [
+          "//device/board/iscas/rpi4/image:rpi_image"
+        ]
+      }
+    }
+  }

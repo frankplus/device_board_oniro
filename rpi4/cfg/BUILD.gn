@@ -43,7 +43,7 @@ ohos_prebuilt_etc("fstab.rpi4") {
 ohos_prebuilt_etc("fstab.required") {
   source = "fstab.required"
   part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  install_images = [ ramdisk_base_dir ]
   install_enable = true
 }
 
@@ -59,7 +59,6 @@ group("init_configs") {
   deps = [
     ":fstab.required",
     ":fstab.rpi4",
-    ":init.without_two_stages.cfg",
     ":init.rpi4.cfg",
     ":init.rpi4.usb.cfg",
     ":init.modprobe.sh",
