@@ -11,7 +11,7 @@ os.environ['ARCH'] = 'arm'
 os.environ['CROSS_COMPILE'] = 'arm-linux-gnueabihf-'
 
 defconfig = 'bcm2711_oh_defconfig'
-kernel_dir = os.path.abspath('../../out/KERNEL_OBJ/kernel/src_tmp/linux-5.10')
+kernel_dir = os.path.abspath('../../out/kernel/OBJ/linux-5.10')
 script_dir = os.path.abspath(os.path.dirname(__file__))
 bootimgsize = 128*1024*1024
 command = sys.argv[1]
@@ -33,13 +33,13 @@ def make_kernel_all():
     oldpwd = os.getcwd()
     os.chdir(kernel_dir)
 
-    zimage = os.path.join(output_dir, 'zImage')
+    zimage = os.path.join(output_dir, 'Image.gz')
     remove_file(zimage)
     nproc = multiprocessing.cpu_count()
     subprocess.run(F'make {defconfig}', shell=True, check=True)
-    subprocess.run(F'make -j{nproc+1} zImage modules dtbs', shell=True, check=True)
+    subprocess.run(F'make -j{nproc+1} Image.gz modules dtbs', shell=True, check=True)
     shutil.copy(
-        os.path.join('arch/arm/boot/zImage'),
+        os.path.join('arch/arm64/boot/Image.gz'),
         zimage
     )
 
@@ -69,7 +69,11 @@ def make_boot_img():
     shutil.copytree(os.path.join(script_dir, 'rpi4boot'), boot_dir)
     # os.mkdir(overlays_dir)
     shutil.copy(
-        os.path.join(kernel_dir, 'arch/arm/boot/zImage'),
+        os.path.join(kernel_dir, 'arch/arm64/boot/Image.gz'),
+        boot_dir
+    )
+    shutil.copy(
+        os.path.join(output_dir, 'images/ramdisk.img'),
         boot_dir
     )
     # shutil.copy(

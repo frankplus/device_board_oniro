@@ -3,10 +3,10 @@
     "parts": {
         "raspberrypi_products": {
             "module_list": [
-                "//device/board/raspberrypi/${device_name}:rpi3_group"
+                "//device/board/${product_company}/${device_name}:rpi3_group"
             ],
             "test_list": [
-                "//kernel/linux/build/test:linuxkerneltest"
+                "//device/board/${product_company}/rpi3/image:rpi_image"
             ]
         }
     }

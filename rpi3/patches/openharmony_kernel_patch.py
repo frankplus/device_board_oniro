@@ -58,22 +58,38 @@ patchlist = [
 # '117',
 # '128',
 # '138',
-'183',
-'184',
-'185',
-'179',
-'182',
-'186',
-'187',
-'192',
-'197',
-'200',
-'170',
-'195',
-'229',
-'231',
-'234',
-'232'
+# '183',
+# '184',
+# '185',
+# '179',
+# '182',
+# '186',
+# '187',
+# '192',
+# '197',
+# '200',
+# '170',
+# '195',
+# '229',
+# '231',
+# '234',
+# '232',
+# '246',
+# '243',
+# '239',
+# '230',
+# '254',
+# '266',
+# '261',
+# '265',
+# '263',
+# '252',
+# '271',
+# '273',
+# '280',
+# '282',
+'286',
+'278'
 ]
 
 #git fetch https://gitee.com/openharmony/kernel_linux_5.10.git pull/138/head:pr_138
@@ -91,7 +107,7 @@ for patchid in patchlist:
             print(temp)
 
 
-#git apply /home/diemit/OpenHarmony/device/rpifdn/patches/kernel-5.10/1.diff
+#git apply /home/diemit/OpenHarmony/device/board/raspberrypi/rpi3/patches/kernel-5.10/1.diff
 #git apply --stat patchfile
 #git apply --check patchfile
 os.chdir('/home/diemit/OpenHarmony/kernel/linux/linux-rpi-5.10')

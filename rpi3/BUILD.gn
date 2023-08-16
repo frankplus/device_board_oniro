@@ -17,25 +17,13 @@ print("rpi3_group in")
 group("rpi3_group") {
   deps = [
     "cfg:init_configs",
-    "kernel:rpi3_kernel_build"
-  ]
-}
-
-action("firmware") {
-  deps = [
-    "kernel:rpi3_kernel_build",
-    "//build/core/gn:images",
-  ]
-  script = "make_rpi_sdcard_image.py"
-  outputs = [ "$root_build_dir/packages/phone/images/firmware.img" ]
-  args = [
-    "--output",
-    rebase_path("$root_build_dir/packages/phone/images/firmware.img"),
-    #"--userdata",
-    #"300M",
-    rebase_path("$root_build_dir/packages/phone/images/boot.img"),
-    rebase_path("$root_build_dir/packages/phone/images/system.img"),
-    rebase_path("$root_build_dir/packages/phone/images/vendor.img"),
-    rebase_path("$root_build_dir/packages/phone/images/userdata.img"),
+    "distributedhardware:distributedhardware",
+    "kernel:rpi3_kernel",
+    "//device/soc/broadcom/bcm2711/standard/hardware:hardware_group",
+    "firmware:firmware",
+    "bluetooth:libbt_vendor",
+    "modules:modules_group",
+    "test:test",
+    "//vendor/${product_company}/rpi3/sample:sample_group"
   ]
 }

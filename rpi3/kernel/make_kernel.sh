@@ -1,5 +1,16 @@
 #!/bin/bash
-#HDF驱动需要配置PRODUCT_PATH
+# Copyright (c) 2022 Diemit <598757652@qq.com>
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 set -e
 
@@ -10,12 +21,15 @@ export KERNEL_VERSION=$4
 export KERNEL_IMAGE=$5
 export DEFCONFIG_FILE=$6
 export OUT_PKG_DIR=$7
-export KERNEL_SRC_TMP_PATH=${PROJECT_ROOT}/out/KERNEL_OBJ/kernel/src_tmp/${KERNEL_VERSION}
-export KERNEL_IMAGE_FILE=${KERNEL_SRC_TMP_PATH}/arch/${KERNEL_ARCH}/boot/${KERNEL_IMAGE}
+export KERNEL_SRC_TMP_PATH=${PROJECT_ROOT}/out/kernel/src_tmp/${KERNEL_VERSION}
+export KERNEL_OBJ_TMP_PATH=${PROJECT_ROOT}/out/kernel/OBJ/${KERNEL_VERSION}
+export KERNEL_IMAGE_FILE=${KERNEL_OBJ_TMP_PATH}/arch/${KERNEL_ARCH}/boot/${KERNEL_IMAGE}
 
-LINUX_KERNEL_MAKEFILE=${PROJECT_ROOT}/device/board/raspberrypi/rpi3/kernel/make_kernel.mk
+LINUX_KERNEL_MAKEFILE=${PROJECT_ROOT}/device/board/iscas/rpi3/kernel/make_kernel.mk
 
 rm -f ${KERNEL_IMAGE_FILE}
+
+export KBUILD_OUTPUT=${KERNEL_OBJ_TMP_PATH}
 
 make -f ${LINUX_KERNEL_MAKEFILE}
 
