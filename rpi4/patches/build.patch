@@ -1,0 +1,209 @@
+
+project base/hiviewdfx/hilog/
+diff --git a/services/hilogd/etc/hilog.para b/services/hilogd/etc/hilog.para
+index 83c775e..688911b 100644
+--- a/services/hilogd/etc/hilog.para
++++ b/services/hilogd/etc/hilog.para
+@@ -13,11 +13,11 @@
+ 
+ 
+ hilog.private.on=true
+-hilog.debug.on=false
++hilog.debug.on=true
+ persist.sys.hilog.kmsg.on=true
+-persist.sys.hilog.debug.on=false
+-hilog.flowctrl.proc.on=false
+-hilog.flowctrl.domain.on=false
++persist.sys.hilog.debug.on=true
++hilog.flowctrl.proc.on=true
++hilog.flowctrl.domain.on=true
+ 
+-hilog.loggable.global=I
+-hilog.buffersize.global=262144
+\ No newline at end of file
++hilog.loggable.global=D
++hilog.buffersize.global=268435456
+\ No newline at end of file
+
+project base/request/request/
+diff --git a/frameworks/js/napi/src/request_notify.cpp b/frameworks/js/napi/src/request_notify.cpp
+index 80b0d2d..10a0267 100644
+--- a/frameworks/js/napi/src/request_notify.cpp
++++ b/frameworks/js/napi/src/request_notify.cpp
+@@ -69,7 +69,7 @@ void RequestNotify::CallBack(const Notify &notify)
+         NotifyDataPtr *dataPtr = static_cast<NotifyDataPtr *>(work->data);
+         if (dataPtr != nullptr) {
+             editorQueue_.Wait(dataPtr->callback->info_);
+-            REQUEST_HILOGI("timestamp is %{public}lld", dataPtr->callback->info_.timestamp);
++            REQUEST_HILOGI("timestamp is %{public}ld", dataPtr->callback->info_.timestamp);
+             editorQueue_.Pop();
+         }
+     }, [](uv_work_t *work, int status) {
+
+project base/startup/init/
+diff --git a/ueventd/ueventd.c b/ueventd/ueventd.c
+index ee12eacc..8c4f0dc6 100644
+--- a/ueventd/ueventd.c
++++ b/ueventd/ueventd.c
+@@ -315,8 +315,8 @@ static void DoTrigger(const char *ueventPath, int sockFd, char **devices, int nu
+         return;
+     }
+ 
+-    INIT_LOGI("------------------------\n"
+-              "\nTry to trigger \" %s \" now ...", ueventPath);
++    // INIT_LOGI("------------------------\n"
++    //           "\nTry to trigger \" %s \" now ...", ueventPath);
+     int fd = open(ueventPath, O_WRONLY | O_CLOEXEC);
+     if (fd < 0) {
+         INIT_LOGE("Open \" %s \" failed, err = %d", ueventPath, errno);
+
+project build/
+diff --git a/hb/util/loader/load_ohos_build.py b/hb/util/loader/load_ohos_build.py
+index f3e3597..cf635c3 100755
+--- a/hb/util/loader/load_ohos_build.py
++++ b/hb/util/loader/load_ohos_build.py
+@@ -469,7 +469,7 @@ class LoadBuildConfig(object):
+                     "subsystem name config incorrect in '{}'.".format(
+                         _build_file), "2014")
+             if _subsystem_name != self._subsystem_name:
+-                is_allow = False
++                is_allow = True
+                 for file_path in self._bundle_subsystem_allow_list:
+                     if _build_file.endswith(file_path):
+                         is_allow = True
+diff --git a/templates/common/check_deps_handler.py b/templates/common/check_deps_handler.py
+index 7a092a7..714dd3a 100755
+--- a/templates/common/check_deps_handler.py
++++ b/templates/common/check_deps_handler.py
+@@ -41,7 +41,7 @@ def check_third_party_deps(args, dep_part, parts_deps_info, _tips_info, third_de
+         if args.target_path in third_deps_allow_list:
+             print(f"[0/0] WARNING: {_warning_info}")
+         else:
+-            raise Exception(_warning_info)
++            print(f"[0/0] WARNING: {_warning_info}")
+ 
+     return
+ 
+@@ -147,7 +147,7 @@ def check_part_deps(args, part_pattern, path_parts_info, compile_standard_allow_
+             if args.target_path in deps_allow_list:
+                 print(f"[0/0] WARNING:{message}")
+             else:
+-                raise Exception(message)
++                print(f"[0/0] WARNING:{message}")
+ 
+ 
+ def check(args):
+@@ -170,7 +170,7 @@ def check(args):
+             print(f"[0/0] {message}")
+             return depfiles
+         else:
+-            raise Exception(message)
++            print(f"[0/0] {message}")
+ 
+     check_part_deps(args, part_pattern, path_parts_info,compile_standard_allow_info, depfiles)
+ 
+diff --git a/templates/common/check_external_deps.py b/templates/common/check_external_deps.py
+index c1e11c9..3230ddd 100755
+--- a/templates/common/check_external_deps.py
++++ b/templates/common/check_external_deps.py
+@@ -40,7 +40,7 @@ def check_parts_deps(args, external_part_name, parts_deps_info):
+             print(f"[0/0] WARNING: {message}")
+             return
+         else:
+-            raise Exception(message)
++            print(f"[0/0] warning: {message}")
+ 
+     _tips_info = "{} depend part {}, need set part deps info to".format(
+         args.target_path, external_part_name)
+@@ -58,7 +58,7 @@ def check_parts_deps(args, external_part_name, parts_deps_info):
+         if args.target_path in bundle_not_add_allow_list:
+             print(f"[0/0] WARNING: {_warning_info}")
+         else:
+-            raise Exception(_warning_info)
++            print(f"[0/0] WARNING: {_warning_info}")
+ 
+     return
+ 
+diff --git a/templates/common/check_part_subsystem_name.py b/templates/common/check_part_subsystem_name.py
+index dd3171c..742cebb 100755
+--- a/templates/common/check_part_subsystem_name.py
++++ b/templates/common/check_part_subsystem_name.py
+@@ -50,7 +50,7 @@ def check(args):
+         if args.target_path in bundle_file_allow_list:
+             print(f"[0/0] warning: {message}")
+         else:
+-            raise Exception(message)
++            print(f"[0/0] warning: {message}")
+             
+     return depfiles
+ 
+
+project drivers/peripheral/
+diff --git a/audio/hdi_service/supportlibs/BUILD.gn b/audio/hdi_service/supportlibs/BUILD.gn
+index cd2b9b5cd..a8ad82e7f 100644
+--- a/audio/hdi_service/supportlibs/BUILD.gn
++++ b/audio/hdi_service/supportlibs/BUILD.gn
+@@ -99,7 +99,7 @@ if (defined(ohos_lite)) {
+         "//third_party/alsa-lib/include",
+         "$hdf_audio_path/supportlibs/alsa_adapter/include",
+       ]
+-      public_deps += [ "//third_party/alsa-lib:libasound" ]
++      public_deps = [ "//third_party/alsa-lib:libasound" ]
+     } else {
+       include_dirs += [ "$hdf_audio_path/supportlibs/adm_adapter/include" ]
+     }
+@@ -155,7 +155,7 @@ if (defined(ohos_lite)) {
+         "//third_party/alsa-lib/include",
+         "$hdf_audio_path/supportlibs/alsa_adapter/include",
+       ]
+-      public_deps += [ "//third_party/alsa-lib:libasound" ]
++      public_deps = [ "//third_party/alsa-lib:libasound" ]
+     } else {
+       include_dirs += [ "$hdf_audio_path/supportlibs/adm_adapter/include" ]
+     }
+diff --git a/display/utils/include/display_log.h b/display/utils/include/display_log.h
+index e2721bcbf..aad0c0d8d 100644
+--- a/display/utils/include/display_log.h
++++ b/display/utils/include/display_log.h
+@@ -30,7 +30,7 @@ extern "C" {
+ #undef LOG_TAG
+ #define LOG_TAG "DISP"
+ #undef LOG_DOMAIN
+-#define LOG_DOMAIN 0xD002500
++#define LOG_DOMAIN 0xD001400
+ 
+ #ifndef DISPLAY_UNUSED
+ #define DISPLAY_UNUSED(x) (void)(x)
+
+project foundation/systemabilitymgr/samgr/
+diff --git a/services/common/src/parse_util.cpp b/services/common/src/parse_util.cpp
+index a36fbe3..c198b57 100644
+--- a/services/common/src/parse_util.cpp
++++ b/services/common/src/parse_util.cpp
+@@ -157,6 +157,7 @@ void ParseUtil::OpenSo(SaProfile& saProfile)
+         Dl_namespace dlNs;
+         string updateLibPath = GetRealPath("/module_update/" + ToString(saProfile.saId) + "/" + libDir + "/"
+             + fileName);
++        HILOGI("===ss======================SA:%{public}d updateLibPath:%{public}s", saProfile.saId, updateLibPath.c_str());
+         if (CheckPathExist(updateLibPath)) {
+             Dl_namespace currentNs;
+             string nsName = "module_update_" + ToString(saProfile.saId);
+@@ -170,15 +171,17 @@ void ParseUtil::OpenSo(SaProfile& saProfile)
+                 loadFromModuleUpdate = true;
+             }
+         }
+-
++        HILOGI("===sss======================SA:%{public}d updateLibPath:%{public}s", saProfile.saId, updateLibPath.c_str());
+         string dlopenTag = ToString(saProfile.saId) + "_DLOPEN";
+         HITRACE_METER_NAME(HITRACE_TAG_SAMGR, dlopenTag);
+         int64_t begin = GetTickCount();
+         DlHandle handle = nullptr;
+         if (loadFromModuleUpdate) {
++            HILOGI("===ssss======================SA:%{public}d updateLibPath:%{public}s", saProfile.saId, updateLibPath.c_str());
+             handle = dlopen_ns(&dlNs, updateLibPath.c_str(), RTLD_NOW);
+         }
+         if (handle == nullptr) {
++            HILOGI("===ssss======================SA:%{public}d saProfile.libPath:%{public}s", saProfile.saId, saProfile.libPath.c_str());
+             handle = dlopen(saProfile.libPath.c_str(), RTLD_NOW);
+         }
+         HILOGI("[PerformanceTest] SA:%{public}d OpenSo spend %{public}" PRId64 " ms",

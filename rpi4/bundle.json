@@ -26,7 +26,8 @@
       },
       "build": {
         "sub_component": [
-          "//device/board/iscas/rpi4:rpi4_group"
+          "//device/board/iscas/rpi4:rpi4_group",
+          "//device/board/iscas/rpi4/camera:camera_board_vdi_impl"
         ],
         "test": [
           "//device/board/iscas/rpi4/image:rpi_image"

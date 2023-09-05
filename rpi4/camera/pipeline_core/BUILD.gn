@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Huawei Device Co., Ltd.
+# Copyright (c) 2021 - 2023 Huawei Device Co., Ltd.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -11,15 +11,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import("//build/ohos.gni")
+import("//device/board/${product_company}/${device_name}/device.gni")
 import("//drivers/hdf_core/adapter/uhdf2/uhdf.gni")
-import("//drivers/peripheral/camera/hal/camera.gni")
+import("//drivers/peripheral/camera/camera.gni")
 
 config("pipe_config") {
   visibility = [ ":*" ]
 
-  ldflags = [ "-Wl" ]
-  ldflags += [ "-Bdynamic" ]
-  ldflags += [ "-lc++" ]
   cflags_cc = [
     "-Wall",
     "-Wextra",
@@ -65,6 +63,7 @@ ohos_shared_library("camera_pipeline_core") {
     "$camera_path/pipeline_core/nodes/src/sensor_node/sensor_node.cpp",
     "$camera_path/pipeline_core/nodes/src/sink_node/sink_node.cpp",
     "$camera_path/pipeline_core/nodes/src/source_node/source_node.cpp",
+    "$camera_path/pipeline_core/nodes/src/stability_node/stability_node.cpp",
     "$camera_path/pipeline_core/pipeline_impl/src/builder/stream_pipeline_builder.cpp",
     "$camera_path/pipeline_core/pipeline_impl/src/dispatcher/stream_pipeline_dispatcher.cpp",
     "$camera_path/pipeline_core/pipeline_impl/src/parser/config_parser.cpp",
@@ -77,15 +76,16 @@ ohos_shared_library("camera_pipeline_core") {
   include_dirs = [
     "//commonlibrary/c_utils/base/include",
     "//base/hiviewdfx/interfaces/innerkits/libhilog/include",
-    "//drivers/peripheral/camera/hal/utils/exif",
-    "$camera_path/../interfaces/include",
-    "$camera_path/../interfaces/hdi_ipc",
+    "//drivers/peripheral/camera/vdi_base/common/utils/exif",
+    "$camera_path/../../interfaces/include",
+    "$camera_path/../../interfaces/hdi_ipc",
     "$camera_path/include",
-    "$camera_path/hdi_impl",
-    "$camera_path/hdi_impl/camera_host/include",
-    "$camera_path/hdi_impl/camera_device/include",
-    "$camera_path/hdi_impl/stream_operator/include",
-    "$camera_path/hdi_impl/include",
+    "$camera_path/../interfaces",
+    "$camera_path/../v4l2",
+    "$camera_path/../v4l2/camera_host/include",
+    "$camera_path/../v4l2/camera_device/include",
+    "$camera_path/../v4l2/stream_operator/include",
+    "$camera_path/../v4l2/include",
     "$camera_path/device_manager",
     "$camera_path/device_manager/include",
     "$camera_path/metadata_manager/include",
@@ -114,12 +114,11 @@ ohos_shared_library("camera_pipeline_core") {
     "../device_manager/include",
     "$camera_path/adapter/platform/v4l2/src/pipeline_core/nodes/v4l2_source_node",
     "$camera_path/adapter/platform/v4l2/src/pipeline_core/nodes/uvc_node",
-    "//drivers/peripheral/camera/hal/adapter/platform/v4l2/src/driver_adapter/include/",
+    "//drivers/peripheral/camera/vdi_base/common/adapter/platform/v4l2/src/driver_adapter/include/",
     "//foundation/communication/ipc/ipc/native/src/core/include",
     "//commonlibrary/c_utils/base/include",
     "src/node",
     "//third_party/libexif",
-    "//third_party/libjpeg",
 
     # hcs parser
     "//system/core/include/cutils",
@@ -128,24 +127,24 @@ ohos_shared_library("camera_pipeline_core") {
   deps = [
     "$board_camera_path:config.c",
     "$board_camera_path:params.c",
+    "$board_camera_path/device_manager:camera_device_manager",
+    "$board_camera_path/metadata_manager:camera_metadata_manager",
     "$camera_path/buffer_manager:camera_buffer_manager",
-    "$camera_path/device_manager:camera_device_manager",
-    "$camera_path/metadata_manager:camera_metadata_manager",
+    "$camera_path/utils:camera_utils",
     "$hdf_uhdf_path/utils:libhdf_utils",
-    "//drivers/interface/camera/v1_0:libcamera_stub_1.0",
-    "//drivers/peripheral/camera/hal/utils:camera_utils",
     "//third_party/libjpeg-turbo:turbojpeg_static",
   ]
 
   if (is_standard_system) {
     external_deps = [
       "hdf_core:libhdf_utils",
-      "hiviewdfx_hilog_native:libhilog",
+      "hilog:libhilog",
     ]
   } else {
     external_deps = [ "hilog:libhilog" ]
   }
   external_deps += [
+    "drivers_interface_camera:libbuffer_producer_sequenceable_1.0",
     "drivers_interface_camera:metadata",
     "graphic_chipsetsdk:surface",
     "ipc:ipc_single",
@@ -153,8 +152,8 @@ ohos_shared_library("camera_pipeline_core") {
 
   public_configs = [ ":pipe_config" ]
   install_images = [ chipset_base_dir ]
-  subsystem_name = "hdf"
-  part_name = "drivers_peripheral_camera"
+  subsystem_name = "raspberrypi_products"
+  part_name = "raspberrypi_products"
 }
 
 config("example_config") {
@@ -177,6 +176,6 @@ ohos_shared_library("camera_ipp_algo_example") {
   external_deps = [ "c_utils:utils" ]
   public_configs = [ ":example_config" ]
   install_images = [ chipset_base_dir ]
-  subsystem_name = "hdf"
-  part_name = "drivers_peripheral_camera"
+  subsystem_name = "raspberrypi_products"
+  part_name = "raspberrypi_products"
 }

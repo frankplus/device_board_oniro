@@ -20,7 +20,7 @@ group("rpi4_group") {
     "cfg:init_configs",
     "distributedhardware:distributedhardware",
     # "kernel:rpi4_kernel",
-    "//device/soc/broadcom/bcm2711/standard/hardware:hardware_group",
+    "//device/soc/broadcom/bcm2711/hardware:hardware_group",
     "firmware:firmware",
     # "bluetooth:libbt_vendor",
     # "modules:modules_group",
