@@ -1,0 +1,186 @@
+diff --git a/frameworks/surfaceimage/BUILD.gn b/frameworks/surfaceimage/BUILD.gn
+index 0faf116..029a749 100644
+--- a/frameworks/surfaceimage/BUILD.gn
++++ b/frameworks/surfaceimage/BUILD.gn
+@@ -48,6 +48,10 @@ ohos_shared_library("libnative_image") {
+     }
+   }
+ 
++  if (graphic_2d_mesa3d_enable) {
++    defines = [ "MESA3D" ]
++  } 
++
+   configs = [ ":native_image_config" ]
+ 
+   public_configs = [ ":libnative_image_public_config" ]
+diff --git a/frameworks/surfaceimage/src/surface_image.cpp b/frameworks/surfaceimage/src/surface_image.cpp
+index a4839f8..4325363 100644
+--- a/frameworks/surfaceimage/src/surface_image.cpp
++++ b/frameworks/surfaceimage/src/surface_image.cpp
+@@ -33,6 +33,18 @@
+ 
+ namespace OHOS {
+ namespace {
++
++//Mesa3D
++// #ifdef MESA3D
++static PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES = (PFNGLEGLIMAGETARGETTEXTURE2DOESPROC)eglGetProcAddress("glEGLImageTargetTexture2DOES");
++static PFNEGLCREATESYNCKHRPROC eglCreateSyncKHR = (PFNEGLCREATESYNCKHRPROC)eglGetProcAddress("eglCreateSyncKHR");
++static PFNEGLDESTROYSYNCKHRPROC eglDestroySyncKHR = (PFNEGLDESTROYSYNCKHRPROC)eglGetProcAddress("eglDestroySyncKHR");
++static PFNEGLCLIENTWAITSYNCKHRPROC eglClientWaitSyncKHR = (PFNEGLCLIENTWAITSYNCKHRPROC)eglGetProcAddress("eglClientWaitSyncKHR");
++static PFNEGLWAITSYNCKHRPROC eglWaitSyncKHR = (PFNEGLWAITSYNCKHRPROC)eglGetProcAddress("eglWaitSyncKHR");
++static PFNEGLCREATEIMAGEKHRPROC eglCreateImageKHR = (PFNEGLCREATEIMAGEKHRPROC)eglGetProcAddress("eglCreateImageKHR");
++static PFNEGLDESTROYIMAGEKHRPROC eglDestroyImageKHR = (PFNEGLDESTROYIMAGEKHRPROC)eglGetProcAddress("eglDestroyImageKHR");
++// #endif
++
+ // Get a uniqueID in a process
+ static int GetProcessUniqueId()
+ {
+diff --git a/graphic_config.gni b/graphic_config.gni
+index 7ad24df..68cfe63 100644
+--- a/graphic_config.gni
++++ b/graphic_config.gni
+@@ -22,6 +22,7 @@ declare_args() {
+   graphic_2d_feature_freemem_enable = false
+   graphic_2d_feature_parallel_render_enable = true
+   graphic_2d_feature_enable_vulkan = false
++  graphic_2d_mesa3d_enable = true
+   if (defined(build_cross_platform_version) && build_cross_platform_version) {
+     use_new_render_context = false
+     is_cross_platform = true
+diff --git a/rosen/modules/render_service/BUILD.gn b/rosen/modules/render_service/BUILD.gn
+index 77b26ea..a4b273c 100644
+--- a/rosen/modules/render_service/BUILD.gn
++++ b/rosen/modules/render_service/BUILD.gn
+@@ -28,6 +28,10 @@ ohos_shared_library("librender_service") {
+   }
+   defines += gpu_defines
+ 
++  if (graphic_2d_mesa3d_enable) {
++    defines += [ "MESA3D" ]
++  } 
++
+   sources = [
+     "core/memory/rs_memory_manager.cpp",
+     "core/memory/rs_skia_memory_tracer.cpp",
+diff --git a/rosen/modules/render_service/core/pipeline/parallel_render/rs_parallel_sub_thread.cpp b/rosen/modules/render_service/core/pipeline/parallel_render/rs_parallel_sub_thread.cpp
+index 6d08485..5093ec3 100644
+--- a/rosen/modules/render_service/core/pipeline/parallel_render/rs_parallel_sub_thread.cpp
++++ b/rosen/modules/render_service/core/pipeline/parallel_render/rs_parallel_sub_thread.cpp
+@@ -40,6 +40,18 @@
+ 
+ namespace OHOS {
+ namespace Rosen {
++
++//Mesa3D
++// #ifdef MESA3D
++static PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES = (PFNGLEGLIMAGETARGETTEXTURE2DOESPROC)eglGetProcAddress("glEGLImageTargetTexture2DOES");
++static PFNEGLCREATESYNCKHRPROC eglCreateSyncKHR = (PFNEGLCREATESYNCKHRPROC)eglGetProcAddress("eglCreateSyncKHR");
++static PFNEGLDESTROYSYNCKHRPROC eglDestroySyncKHR = (PFNEGLDESTROYSYNCKHRPROC)eglGetProcAddress("eglDestroySyncKHR");
++static PFNEGLCLIENTWAITSYNCKHRPROC eglClientWaitSyncKHR = (PFNEGLCLIENTWAITSYNCKHRPROC)eglGetProcAddress("eglClientWaitSyncKHR");
++static PFNEGLWAITSYNCKHRPROC eglWaitSyncKHR = (PFNEGLWAITSYNCKHRPROC)eglGetProcAddress("eglWaitSyncKHR");
++static PFNEGLCREATEIMAGEKHRPROC eglCreateImageKHR = (PFNEGLCREATEIMAGEKHRPROC)eglGetProcAddress("eglCreateImageKHR");
++static PFNEGLDESTROYIMAGEKHRPROC eglDestroyImageKHR = (PFNEGLDESTROYIMAGEKHRPROC)eglGetProcAddress("eglDestroyImageKHR");
++// #endif
++
+ RSParallelSubThread::RSParallelSubThread(int threadIndex)
+     : threadIndex_(threadIndex), subThread_(nullptr), renderType_(ParallelRenderType::DRAW_IMAGE) {}
+ #ifdef NEW_RENDER_CONTEXT
+diff --git a/rosen/modules/render_service/core/pipeline/parallel_render/rs_sub_thread.cpp b/rosen/modules/render_service/core/pipeline/parallel_render/rs_sub_thread.cpp
+index 27fcded..4ebc79c 100644
+--- a/rosen/modules/render_service/core/pipeline/parallel_render/rs_sub_thread.cpp
++++ b/rosen/modules/render_service/core/pipeline/parallel_render/rs_sub_thread.cpp
+@@ -33,6 +33,18 @@
+ #endif
+ 
+ namespace OHOS::Rosen {
++
++//Mesa3D
++// #ifdef MESA3D
++static PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES = (PFNGLEGLIMAGETARGETTEXTURE2DOESPROC)eglGetProcAddress("glEGLImageTargetTexture2DOES");
++static PFNEGLCREATESYNCKHRPROC eglCreateSyncKHR = (PFNEGLCREATESYNCKHRPROC)eglGetProcAddress("eglCreateSyncKHR");
++static PFNEGLDESTROYSYNCKHRPROC eglDestroySyncKHR = (PFNEGLDESTROYSYNCKHRPROC)eglGetProcAddress("eglDestroySyncKHR");
++static PFNEGLCLIENTWAITSYNCKHRPROC eglClientWaitSyncKHR = (PFNEGLCLIENTWAITSYNCKHRPROC)eglGetProcAddress("eglClientWaitSyncKHR");
++static PFNEGLWAITSYNCKHRPROC eglWaitSyncKHR = (PFNEGLWAITSYNCKHRPROC)eglGetProcAddress("eglWaitSyncKHR");
++static PFNEGLCREATEIMAGEKHRPROC eglCreateImageKHR = (PFNEGLCREATEIMAGEKHRPROC)eglGetProcAddress("eglCreateImageKHR");
++static PFNEGLDESTROYIMAGEKHRPROC eglDestroyImageKHR = (PFNEGLDESTROYIMAGEKHRPROC)eglGetProcAddress("eglDestroyImageKHR");
++// #endif
++
+ namespace {
+ #ifdef RES_SCHED_ENABLE
+     const uint32_t RS_SUB_QOS_LEVEL = 7;
+diff --git a/rosen/modules/render_service_base/BUILD.gn b/rosen/modules/render_service_base/BUILD.gn
+index 44d7ede..217408b 100644
+--- a/rosen/modules/render_service_base/BUILD.gn
++++ b/rosen/modules/render_service_base/BUILD.gn
+@@ -238,6 +238,10 @@ ohos_source_set("render_service_base_src") {
+     ]
+   }
+ 
++  if (graphic_2d_mesa3d_enable) {
++    defines += [ "MESA3D" ]
++  } 
++
+   if (current_os == "mingw" || current_os == "mac" || current_os == "linux" ||
+       current_os == "ios") {
+     sources -= [ "src/common/rs_shared_context.cpp" ]
+diff --git a/rosen/modules/render_service_base/src/pipeline/rs_draw_cmd.cpp b/rosen/modules/render_service_base/src/pipeline/rs_draw_cmd.cpp
+index 77c40da..3a56c4f 100644
+--- a/rosen/modules/render_service_base/src/pipeline/rs_draw_cmd.cpp
++++ b/rosen/modules/render_service_base/src/pipeline/rs_draw_cmd.cpp
+@@ -36,6 +36,18 @@
+ 
+ namespace OHOS {
+ namespace Rosen {
++
++//Mesa3D
++// #ifdef MESA3D
++static PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES = (PFNGLEGLIMAGETARGETTEXTURE2DOESPROC)eglGetProcAddress("glEGLImageTargetTexture2DOES");
++static PFNEGLCREATESYNCKHRPROC eglCreateSyncKHR = (PFNEGLCREATESYNCKHRPROC)eglGetProcAddress("eglCreateSyncKHR");
++static PFNEGLDESTROYSYNCKHRPROC eglDestroySyncKHR = (PFNEGLDESTROYSYNCKHRPROC)eglGetProcAddress("eglDestroySyncKHR");
++static PFNEGLCLIENTWAITSYNCKHRPROC eglClientWaitSyncKHR = (PFNEGLCLIENTWAITSYNCKHRPROC)eglGetProcAddress("eglClientWaitSyncKHR");
++static PFNEGLWAITSYNCKHRPROC eglWaitSyncKHR = (PFNEGLWAITSYNCKHRPROC)eglGetProcAddress("eglWaitSyncKHR");
++static PFNEGLCREATEIMAGEKHRPROC eglCreateImageKHR = (PFNEGLCREATEIMAGEKHRPROC)eglGetProcAddress("eglCreateImageKHR");
++static PFNEGLDESTROYIMAGEKHRPROC eglDestroyImageKHR = (PFNEGLDESTROYIMAGEKHRPROC)eglGetProcAddress("eglDestroyImageKHR");
++// #endif
++
+ namespace {
+ constexpr int32_t CORNER_SIZE = 4;
+ void SimplifyPaint(uint32_t color, SkPaint* paint)
+diff --git a/rosen/modules/render_service_base/src/render/rs_image.cpp b/rosen/modules/render_service_base/src/render/rs_image.cpp
+index 2cb7c49..eee628d 100644
+--- a/rosen/modules/render_service_base/src/render/rs_image.cpp
++++ b/rosen/modules/render_service_base/src/render/rs_image.cpp
+@@ -32,8 +32,32 @@
+ #include "rs_trace.h"
+ #include "sandbox_utils.h"
+ 
++// #ifdef MESA3D
++// #ifdef ROSEN_OHOS
++#include "EGL/egl.h"
++#include "EGL/eglext.h"
++#include "GLES2/gl2.h"
++#include "GLES2/gl2ext.h"
++#include "external_window.h"
++#include "surface_buffer.h"
++#include "window.h"
++// #endif
++// #endif
++
+ namespace OHOS {
+ namespace Rosen {
++
++//Mesa3D
++// #ifdef MESA3D
++static PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES = (PFNGLEGLIMAGETARGETTEXTURE2DOESPROC)eglGetProcAddress("glEGLImageTargetTexture2DOES");
++static PFNEGLCREATESYNCKHRPROC eglCreateSyncKHR = (PFNEGLCREATESYNCKHRPROC)eglGetProcAddress("eglCreateSyncKHR");
++static PFNEGLDESTROYSYNCKHRPROC eglDestroySyncKHR = (PFNEGLDESTROYSYNCKHRPROC)eglGetProcAddress("eglDestroySyncKHR");
++static PFNEGLCLIENTWAITSYNCKHRPROC eglClientWaitSyncKHR = (PFNEGLCLIENTWAITSYNCKHRPROC)eglGetProcAddress("eglClientWaitSyncKHR");
++static PFNEGLWAITSYNCKHRPROC eglWaitSyncKHR = (PFNEGLWAITSYNCKHRPROC)eglGetProcAddress("eglWaitSyncKHR");
++static PFNEGLCREATEIMAGEKHRPROC eglCreateImageKHR = (PFNEGLCREATEIMAGEKHRPROC)eglGetProcAddress("eglCreateImageKHR");
++static PFNEGLDESTROYIMAGEKHRPROC eglDestroyImageKHR = (PFNEGLDESTROYIMAGEKHRPROC)eglGetProcAddress("eglDestroyImageKHR");
++// #endif
++
+ namespace {
+ constexpr int32_t CORNER_SIZE = 4;
+ }
