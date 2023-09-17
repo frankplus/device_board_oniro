@@ -27,8 +27,8 @@ ohos_prebuilt_etc("camera_host_config.hcb") {
   source = hcs_outputs[0]
   relative_install_dir = "hdfconfig"
   install_images = [ chipset_base_dir ]
-  subsystem_name = "raspberrypi_products"
-  part_name = "raspberrypi_products"
+  subsystem_name = "device_rpi4"
+  part_name = "device_rpi4"
 }
 
 hc_gen_c("generate_source") {
@@ -88,8 +88,8 @@ ohos_prebuilt_etc("ipp_algo_config.hcb") {
   source = hcs_outputs[0]
   relative_install_dir = "hdfconfig"
   install_images = [ chipset_base_dir ]
-  subsystem_name = "raspberrypi_products"
-  part_name = "raspberrypi_products"
+  subsystem_name = "device_rpi4"
+  part_name = "device_rpi4"
 }
 
 config("example_config") {
@@ -229,8 +229,8 @@ ohos_shared_library("camera_host_vdi_impl_1.0") {
   ]
   public_configs = [ ":camhdi_impl_config" ]
   install_images = [ chipset_base_dir ]
-  subsystem_name = "raspberrypi_products"
-  part_name = "raspberrypi_products"
+  subsystem_name = "device_rpi4"
+  part_name = "device_rpi4"
 }
 
 ohos_static_library("camera_host_vdi_impl_1.0_static") {
@@ -279,8 +279,8 @@ ohos_static_library("camera_host_vdi_impl_1.0_static") {
   ]
 
   public_configs = [ ":camhdi_impl_config" ]
-  subsystem_name = "raspberrypi_products"
-  part_name = "raspberrypi_products"
+  subsystem_name = "device_rpi4"
+  part_name = "device_rpi4"
 }
 
 group("camera_board_vdi_impl") {

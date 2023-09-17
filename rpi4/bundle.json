@@ -1,13 +1,13 @@
 {
-    "name": "@ohos/raspberrypi_products",
+    "name": "@ohos/device_rpi4",
     "version": "3.1",
     "license": "Apache License 2.0",
     "private": false,
     "scripts": {},
     "dirs": [""],
     "component": {
-      "name": "raspberrypi_products",
-      "subsystem": "raspberrypi_products",
+      "name": "device_rpi4",
+      "subsystem": "device_rpi4",
       "syscap": [],
       "features": [],
       "deps": {
@@ -16,6 +16,7 @@
           "hilog",
           "hdf_core",
           "drivers_interface_display",
+          "drivers_interface_camera",
           "hitrace",
           "ipc",
           "graphic_chipsetsdk"
@@ -26,8 +27,7 @@
       },
       "build": {
         "sub_component": [
-          "//device/board/iscas/rpi4:rpi4_group",
-          "//device/board/iscas/rpi4/camera:camera_board_vdi_impl"
+          "//device/board/iscas/rpi4:rpi4_group"
         ],
         "test": [
           "//device/board/iscas/rpi4/image:rpi_image"

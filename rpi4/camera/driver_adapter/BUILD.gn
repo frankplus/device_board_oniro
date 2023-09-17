@@ -62,6 +62,6 @@ ohos_shared_library("camera_v4l2_adapter") {
   external_deps += [ "drivers_interface_camera:metadata" ]
   public_configs = [ ":v4l2_config" ]
   install_images = [ chipset_base_dir ]
-  subsystem_name = "raspberrypi_products"
-  part_name = "raspberrypi_products"
+  subsystem_name = "device_rpi4"
+  part_name = "device_rpi4"
 }

@@ -16,80 +16,80 @@ import("//build/ohos.gni")
 
 ohos_prebuilt_etc("regulatory.db") {
   source = "regulatory.db"
-  part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  part_name = "device_rpi4"
+  install_images = [ ramdisk_base_dir ]
   module_install_dir = "lib/firmware"
   install_enable = true
 }
 
 ohos_prebuilt_etc("regulatory.db.p7s") {
   source = "regulatory.db.p7s"
-  part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  part_name = "device_rpi4"
+  install_images = [ ramdisk_base_dir ]
   module_install_dir = "lib/firmware"
   install_enable = true
 }
 
 ohos_prebuilt_etc("brcm.BCM4345C0") {
   source = "brcm/BCM4345C0.hcd"
-  part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  part_name = "device_rpi4"
+  install_images = [ ramdisk_base_dir ]
   module_install_dir = "lib/firmware/brcm"
   install_enable = true
 }
 
 ohos_prebuilt_etc("brcm.BCM4345C5") {
   source = "brcm/BCM4345C5.hcd"
-  part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  part_name = "device_rpi4"
+  install_images = [ ramdisk_base_dir ]
   module_install_dir = "lib/firmware/brcm"
   install_enable = true
 }
 
 ohos_prebuilt_etc("brcm.brcmfmac43455-sdio") {
   source = "brcm/brcmfmac43455-sdio.bin"
-  part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  part_name = "device_rpi4"
+  install_images = [ ramdisk_base_dir ]
   module_install_dir = "lib/firmware/brcm"
   install_enable = true
 }
 
 ohos_prebuilt_etc("brcm.brcmfmac43455-sdio.clm_blob") {
   source = "brcm/brcmfmac43455-sdio.clm_blob"
-  part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  part_name = "device_rpi4"
+  install_images = [ ramdisk_base_dir ]
   module_install_dir = "lib/firmware/brcm"
   install_enable = true
 }
 
 ohos_prebuilt_etc("brcm.brcmfmac43455-sdio.txt") {
   source = "brcm/brcmfmac43455-sdio.txt"
-  part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  part_name = "device_rpi4"
+  install_images = [ ramdisk_base_dir ]
   module_install_dir = "lib/firmware/brcm"
   install_enable = true
 }
 
 ohos_prebuilt_etc("brcm.brcmfmac43456-sdio") {
   source = "brcm/brcmfmac43456-sdio.bin"
-  part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  part_name = "device_rpi4"
+  install_images = [ ramdisk_base_dir ]
   module_install_dir = "lib/firmware/brcm"
   install_enable = true
 }
 
 ohos_prebuilt_etc("brcm.brcmfmac43456-sdio.clm_blob") {
   source = "brcm/brcmfmac43456-sdio.clm_blob"
-  part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  part_name = "device_rpi4"
+  install_images = [ ramdisk_base_dir ]
   module_install_dir = "lib/firmware/brcm"
   install_enable = true
 }
 
 ohos_prebuilt_etc("brcm.brcmfmac43456-sdio.txt") {
   source = "brcm/brcmfmac43456-sdio.txt"
-  part_name = "raspberrypi_products"
-  install_images = [ system_base_dir ]
+  part_name = "device_rpi4"
+  install_images = [ ramdisk_base_dir ]
   module_install_dir = "lib/firmware/brcm"
   install_enable = true
 }

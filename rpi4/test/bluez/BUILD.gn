@@ -20,7 +20,7 @@ ohos_executable("hciconfig") {
 
   deps = [ ]
 
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_enable = true
 }
 
@@ -43,7 +43,7 @@ ohos_executable("hcitool") {
 
   deps = [ ]
 
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_enable = true
 }
 
@@ -71,7 +71,7 @@ ohos_executable("hciattach") {
 
   deps = [ ]
 
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_enable = true
 }
 

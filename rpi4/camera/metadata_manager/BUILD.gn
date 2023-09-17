@@ -71,7 +71,7 @@ if (!defined(ohos_lite)) {
 
     public_configs = [ ":camera_metadata_manager_config" ]
     install_images = [ chipset_base_dir ]
-    subsystem_name = "raspberrypi_products"
-    part_name = "raspberrypi_products"
+    subsystem_name = "device_rpi4"
+    part_name = "device_rpi4"
   }
 }

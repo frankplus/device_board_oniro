@@ -21,6 +21,8 @@ group("rpi4_group") {
     "distributedhardware:distributedhardware",
     # "kernel:rpi4_kernel",
     "//device/soc/broadcom/bcm2711/hardware:hardware_group",
+    "//device/soc/broadcom/bcm2711/hardware/display:display_buffer_model",
+    "//device/soc/broadcom/bcm2711/hardware/display:display_composer_model",
     "firmware:firmware",
     # "bluetooth:libbt_vendor",
     # "modules:modules_group",
