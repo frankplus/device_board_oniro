@@ -77,7 +77,7 @@ def make_boot_img():
         boot_dir
     )
     # shutil.copy(
-    #     os.path.join(kernel_dir, 'arch/arm/boot/dts/bcm2711-rpi-4-b.dtb'),
+    #     os.path.join(kernel_dir, 'arch/arm64/boot/dts/bcm2710-rpi-3-b.dtb'),
     #     boot_dir
     # )
     # shutil.copy(

@@ -25,7 +25,7 @@ export KERNEL_SRC_TMP_PATH=${PROJECT_ROOT}/out/kernel/src_tmp/${KERNEL_VERSION}
 export KERNEL_OBJ_TMP_PATH=${PROJECT_ROOT}/out/kernel/OBJ/${KERNEL_VERSION}
 export KERNEL_IMAGE_FILE=${KERNEL_OBJ_TMP_PATH}/arch/${KERNEL_ARCH}/boot/${KERNEL_IMAGE}
 
-LINUX_KERNEL_MAKEFILE=${PROJECT_ROOT}/device/board/iscas/rpi4/kernel/make_kernel.mk
+LINUX_KERNEL_MAKEFILE=${PROJECT_ROOT}/device/board/iscas/rpi3/kernel/make_kernel.mk
 
 rm -f ${KERNEL_IMAGE_FILE}
 
