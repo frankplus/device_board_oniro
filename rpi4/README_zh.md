@@ -46,8 +46,7 @@ curl https://gitee.com/oschina/repo/raw/fork_flow/repo-py3 | sudo tee /usr/local
 通过repo + https 下载。
 
 ```
-（这里链接需要替换）
-repo init -u https://gitee.com/d1124/manifest.git -b OpenHarmony-3.2-Beta1 -m chipsets/raspberrypi3.xml -g ohos:standard --no-repo-verify --depth=1
+repo init -u https://gitee.com/d1124/manifest.git -b OpenHarmony-3.2-Release --no-repo-verify 
 
 repo sync -c
 
@@ -62,7 +61,6 @@ repo forall -c 'git lfs pull'
 ./build/prebuilts_download.sh
 ```
 
-下载的prebuilts二进制默认存放在与OpenHarmony同目录下的OpenHarmony_2.0_canary_prebuilts下。
 
 **二、编译和烧录**
 
@@ -77,7 +75,7 @@ repo forall -c 'git lfs pull'
 ```
 完成后再输入：
 ```
-./build.sh --product-name rpi4 --ccache --build-target firmware
+./build.sh --product-name rpi4 --ccache --build-target rpi_image
 ```
 
 
@@ -90,7 +88,7 @@ out/rpi4/packages/phone/images/ 目录下。
 
 烧录需要用到至少16G的TF卡和一个读卡器。
 
-首先使用SDCardFormatter格式化TF卡，之后使用Win32DiskImager烧写out/rpi4/packages/phone/images/路径下的firmware.img文件。
+首先使用SDCardFormatter格式化TF卡，之后使用Win32DiskImager烧写out/rpi4/packages/phone/images/路径下的rpi_image.img文件。
 
 [SDCardFormatter](https://www.sdcardformatter.com/download/)
 
