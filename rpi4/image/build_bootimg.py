@@ -33,13 +33,13 @@ def make_kernel_all():
     oldpwd = os.getcwd()
     os.chdir(kernel_dir)
 
-    zimage = os.path.join(output_dir, 'Image.gz')
+    zimage = os.path.join(output_dir, 'zImage')
     remove_file(zimage)
     nproc = multiprocessing.cpu_count()
     subprocess.run(F'make {defconfig}', shell=True, check=True)
     subprocess.run(F'make -j{nproc+1} Image.gz modules dtbs', shell=True, check=True)
     shutil.copy(
-        os.path.join('arch/arm64/boot/Image.gz'),
+        os.path.join('arch/arm/boot/zImage'),
         zimage
     )
 
@@ -69,7 +69,7 @@ def make_boot_img():
     shutil.copytree(os.path.join(script_dir, 'rpi4boot'), boot_dir)
     # os.mkdir(overlays_dir)
     shutil.copy(
-        os.path.join(kernel_dir, 'arch/arm64/boot/Image.gz'),
+        os.path.join(kernel_dir, 'arch/arm/boot/zImage'),
         boot_dir
     )
     shutil.copy(

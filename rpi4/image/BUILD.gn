@@ -16,6 +16,7 @@ import("//build/ohos.gni")
 
 output_dir = "$root_build_dir/packages/phone"
 action("rpi4_bootimg") {
+  deps=["../kernel:rpi4_kernel"]
     script = "build_bootimg.py"
     outputs = [ "$output_dir/images/boot.img" ]
     args = [ "bootimg", rebase_path(output_dir) ]
@@ -23,7 +24,7 @@ action("rpi4_bootimg") {
 
 
 action("rpi_image") {
-  deps = [ ":rpi4_bootimg" ]
+  deps = [ ":rpi4_bootimg","//build/core/gn:images" ]
   script = "make_rpi_sdcard_image.py"
   outputs = [ "$root_build_dir/packages/phone/images/rpi_image.img" ]
   args = [
