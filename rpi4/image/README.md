@@ -5,7 +5,7 @@
 
 2. 合并镜像
 方法1：全量编译后再执行合并生成烧录固件
-./build.sh --product-name rpi4 --build-target firmware
+./build.sh --product-name rpi4 --build-target rpi_image
 
 方法2：复制image下的ptgen和make_rpi_sdcard_image.py到out/rpi4/packages/phone/images目录
 执行脚本

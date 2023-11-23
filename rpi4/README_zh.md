@@ -109,6 +109,9 @@ out/rpi4/packages/phone/images/ 目录下。
 
 使用HDC工具(命令)：
 ```
+
+hdc连接：插入网线获取到设备ip地址，在电脑命令行中输入hdc tconn 设备ip地址：5555，输出Connect OK即连接成功。
+
 (1)hdc_std shell:进入命令行
 (2)hdc_std file send {本地系统文件路径} {oh系统文件路径}:发送文件
 (3)hdc_std file recv {oh系统文件路径} {本地系统文件路径}:接收文件
