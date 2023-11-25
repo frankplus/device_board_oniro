@@ -1,0 +1,74 @@
+diff --git a/services_ex/BUILD.gn b/services_ex/BUILD.gn
+index c2741b0..0b2547d 100644
+--- a/services_ex/BUILD.gn
++++ b/services_ex/BUILD.gn
+@@ -57,6 +57,20 @@ ohos_source_set("fingerprintauthservice_ex_source_set") {
+ 
+   remove_configs = [ "//build/config/compiler:no_exceptions" ]
+ 
++  cflags = [
++    "-Wall",
++    "-Wno-unused-const-variable",
++    "-Wno-unused-function",
++  ]
++
++ cflags_cc = [ 
++    "-Wno-unused-const-variable",
++    "-Wno-unused-function",
++  ]
++
++
++
++
+   subsystem_name = "useriam"
+   part_name = "fingerprint_auth"
+ }
+diff --git a/services_ex/inc/sensor_illumination_task.h b/services_ex/inc/sensor_illumination_task.h
+index 5fdac12..ff16d63 100644
+--- a/services_ex/inc/sensor_illumination_task.h
++++ b/services_ex/inc/sensor_illumination_task.h
+@@ -65,7 +65,9 @@ private:
+     std::shared_ptr<Rosen::RSSurfaceNode> rsSurfaceNode_ = nullptr;
+     std::shared_ptr<Rosen::RSSurface> rsSurface_ = nullptr;
+     std::shared_ptr<Rosen::RenderContext> renderContext_ = nullptr;
++    #if 0
+     Rosen::DisplayId defaultDisplayId_ = INVALID_DISPLAY_ID;
++    #endif
+     Rosen::ScreenId defaultScreenId_ = Rosen::INVALID_SCREEN_ID;
+     CanvasParam canvasParam_ = {};
+     uint32_t brightness_ = INVALID_BRIGHTNESS;
+@@ -81,4 +83,4 @@ std::shared_ptr<ISensorIlluminationTask> GetSensorIlluminationTask();
+ } // namespace UserIam
+ } // namespace OHOS
+ 
+-#endif // SENSOR_ILLUMINATION_TASK
+\ No newline at end of file
++#endif // SENSOR_ILLUMINATION_TASK
+diff --git a/services_ex/src/sensor_illumination_task.cpp b/services_ex/src/sensor_illumination_task.cpp
+index 49a247c..100794b 100644
+--- a/services_ex/src/sensor_illumination_task.cpp
++++ b/services_ex/src/sensor_illumination_task.cpp
+@@ -160,6 +160,7 @@ SensorIlluminationTask::~SensorIlluminationTask()
+ ResultCode SensorIlluminationTask::EnableSensorIllumination(uint32_t centerX, uint32_t centerY, uint32_t radius,
+     uint32_t color)
+ {
++    #if 0
+     std::lock_guard<std::recursive_mutex> lock(recursiveMutex_);
+     IAM_LOGI("start");
+ 
+@@ -212,6 +213,8 @@ ResultCode SensorIlluminationTask::EnableSensorIllumination(uint32_t centerX, ui
+ 
+     IAM_LOGI("success");
+     return ResultCode::SUCCESS;
++    #endif
++    return ResultCode::SUCCESS;
+ }
+ 
+ ResultCode SensorIlluminationTask::DisableSensorIllumination()
+@@ -350,4 +353,4 @@ std::shared_ptr<ISensorIlluminationTask> GetSensorIlluminationTask()
+ }
+ } // namespace FingerprintAuth
+ } // namespace UserIam
+-} // namespace OHOS
+\ No newline at end of file
++} // namespace OHOS

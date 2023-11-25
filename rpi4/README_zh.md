@@ -70,14 +70,17 @@ repo forall -c 'git lfs pull'
 
 在Linux环境进行如下操作:
 
+进入以下目录，手动应用对应的build，fingerprint_auth，graphic_2d补丁
+device/board/iscas/rpi4/patches
+
 进入源码根目录，执行如下命令进行版本编译。
 先输入：
 ```
-./build.sh --product-name rpi4 --ccache
+./build.sh --product-name rpi4 --ccache --no-prebuilt-sdk
 ```
 完成后再输入：
 ```
-./build.sh --product-name rpi4 --ccache --build-target firmware
+./build.sh --product-name rpi4 --ccache --no-prebuilt-sdk --build-target rpi_image
 ```
 
 

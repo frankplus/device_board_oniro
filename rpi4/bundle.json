@@ -19,7 +19,9 @@
           "drivers_interface_camera",
           "hitrace",
           "ipc",
-          "graphic_chipsetsdk"
+          "graphic_chipsetsdk",
+          "window_manager",
+          "graphic_2d"
         ],
         "third_party": [
           "libdrm"

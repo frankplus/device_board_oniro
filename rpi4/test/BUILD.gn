@@ -53,9 +53,10 @@ ohos_prebuilt_executable("gl_test") {
 group("test") {
   deps = [
     ":modetest",
-    # "native_window_wrapper:native_window_wrapper",
+    "native_window_wrapper:native_window_wrapper",
     # ":gl_test",
-    # "glmark2:glmark2_group",
+    "glmark2:glmark2_group",
+    "vsynctest:vsynctest",
     # "bluez:bluez",
   ]
 

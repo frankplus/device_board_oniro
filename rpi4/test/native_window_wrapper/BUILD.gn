@@ -17,10 +17,11 @@ ohos_shared_library("native_window_wrapper") {
     "-Wno-delete-incomplete",
   ]
 
-  deps = [
-    "//foundation/window/window_manager/wm:libwm",
-    "//foundation/graphic/graphic_2d/frameworks/surface:surface",
-    "//foundation/graphic/graphic_2d/rosen/modules/render_service_client:librender_service_client",
+  external_deps = [
+    "window_manager:libwm",
+    "graphic_chipsetsdk:surface",
+    "graphic_2d:librender_service_client",
+    "c_utils:utils",
   ]
 
   part_name = "device_rpi4"
