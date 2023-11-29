@@ -200,23 +200,24 @@ index 27fcded87..06e1c82a6 100644
      const uint32_t RS_SUB_QOS_LEVEL = 7;
      constexpr const char* RS_BUNDLE_NAME = "render_service";
 diff --git a/rosen/modules/render_service/core/pipeline/rs_base_render_engine.cpp b/rosen/modules/render_service/core/pipeline/rs_base_render_engine.cpp
-index c7418e0fb..8f64c235e 100644
+index c7418e0fb..c64478bb8 100644
 --- a/rosen/modules/render_service/core/pipeline/rs_base_render_engine.cpp
 +++ b/rosen/modules/render_service/core/pipeline/rs_base_render_engine.cpp
 @@ -85,6 +85,7 @@ void RSBaseRenderEngine::Init()
  
  bool RSBaseRenderEngine::NeedForceCPU(const std::vector<LayerInfoPtr>& layers)
  {
-+    #if 0
++#ifndef ACE_DISABLE_GL
      bool forceCPU = false;
      for (const auto& layer: layers) {
          if (layer == nullptr) {
-@@ -113,6 +114,8 @@ bool RSBaseRenderEngine::NeedForceCPU(const std::vector<LayerInfoPtr>& layers)
+@@ -113,6 +114,9 @@ bool RSBaseRenderEngine::NeedForceCPU(const std::vector<LayerInfoPtr>& layers)
      }
  
      return forceCPU;
-+    #endif
++#else
 +    return true;
++#endif
  }
  
  #ifndef USE_ROSEN_DRAWING
