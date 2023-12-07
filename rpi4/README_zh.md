@@ -46,7 +46,7 @@ curl https://gitee.com/oschina/repo/raw/fork_flow/repo-py3 | sudo tee /usr/local
 通过repo + https 下载。
 
 ```
-repo init -u https://gitee.com/d1124/manifest.git -b OpenHarmony-3.2-Release --no-repo-verify 
+repo init -u https://gitee.com/zhengsenwen/manifest.git -b OpenHarmony-3.2-Release --no-repo-verify 
 
 repo sync -c
 
