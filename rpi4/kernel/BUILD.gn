@@ -20,7 +20,7 @@ kernel_source_dir = "//kernel/linux/$linux_kernel_version"
 
 # 判断内核编译类型
 
-kernel_image = "zImage"
+kernel_image = "Image.gz"
 defconfig_file = "bcm2711_oh_defconfig"
 
 group("rpi4_kernel") {

@@ -13,7 +13,7 @@
 安装命令如下：
 
 ```
-sudo apt update&&sudo apt install -y openjdk-8-jre gcc-arm-linux-gnueabihf binutils git git-lfs gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip ruby m4 wget bc python python3 libssl-dev mtools gnutls-bin device-tree-compiler libtinfo5
+sudo apt update&&sudo apt install -y default-jre default-jdk gcc-arm-linux-gnueabihf binutils git git-lfs gnupg flex bison gperf build-essential zip curl zlib1g-dev libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip ruby m4 wget bc python python3 libssl-dev mtools gnutls-bin device-tree-compiler libtinfo5
 ```
 
 如果使用docker还需要加上以下内容：
