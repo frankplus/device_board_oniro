@@ -46,7 +46,7 @@ avoid_warnings=2
 #start_x=1
 
 # 指定GPU独占使用多少内存
-gpu_mem=512
+gpu_mem=256
 
 
 enable_uart=1
