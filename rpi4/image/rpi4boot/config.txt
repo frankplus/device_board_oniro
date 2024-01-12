@@ -29,8 +29,6 @@ hdmi_mode=20
 
 #dtparam=audio=on
 
-#dtoverlay(树莓派的设备树覆盖配置，设备树存放在overlay文件夹)
-#dtoverlay=vc4-kms-v3d,cam-256
 #4b 这个设置应该是无效的
 dtoverlay=vc4-fkms-v3d
 #4b启用usbc接口
