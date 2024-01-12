@@ -29,15 +29,10 @@ hdmi_mode=20
 
 #dtparam=audio=on
 
-#dtoverlay(树莓派的设备树覆盖配置，设备树存放在overlay文件夹)
-#dtoverlay=vc4-kms-v3d,cam-256
 #4b 这个设置应该是无效的
 dtoverlay=vc4-fkms-v3d
 #4b启用usbc接口
 dtoverlay=dwc2,dr_mode=peripheral
-
-#找不到这个配置的作用
-#mask_gpu_interrupt0=0x400
 
 # 1：警告覆盖。2：禁用警告叠加，但即使在存在低电压时，也允许turbo mode
 avoid_warnings=2
@@ -46,7 +41,7 @@ avoid_warnings=2
 #start_x=1
 
 # 指定GPU独占使用多少内存
-gpu_mem=256
+gpu_mem=128
 
 
 enable_uart=1
