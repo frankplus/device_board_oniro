@@ -33,11 +33,9 @@ hdmi_mode=20
 #dtoverlay=vc4-kms-v3d,cam-256
 #4b 这个设置应该是无效的
 dtoverlay=vc4-fkms-v3d
-#4b启用usbc接口
+#4b启用usbc接口1
 dtoverlay=dwc2,dr_mode=peripheral
 
-#找不到这个配置的作用
-#mask_gpu_interrupt0=0x400
 
 # 1：警告覆盖。2：禁用警告叠加，但即使在存在低电压时，也允许turbo mode
 avoid_warnings=2
