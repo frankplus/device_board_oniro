@@ -60,13 +60,13 @@ ohos_shared_library("libbt_vendor") {
   install_enable = true
   install_images = [ chipset_base_dir ]
 
-  part_name = "raspberrypi_products"
-  subsystem_name = "raspberrypi_products"
+  part_name = "device_rpi4"
+  subsystem_name = "device_rpi4"
 }
 
 ohos_prebuilt_etc("bt_vendor.conf") {
   source = "bt_vendor.conf"
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_images = [ vendor_base_dir ]
   module_install_dir = "etc/bluetooth/"
   install_enable = true

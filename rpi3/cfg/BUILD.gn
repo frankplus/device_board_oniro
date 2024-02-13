@@ -14,35 +14,35 @@ import("//build/ohos.gni")
 
 ohos_prebuilt_etc("init.without_two_stages.cfg") {
   source = "init.without_two_stages.cfg"
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_images = [ system_base_dir ]
   install_enable = true
 }
 
 ohos_prebuilt_etc("init.rpi3.cfg") {
   source = "init.rpi3.cfg"
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_images = [ vendor_base_dir ]
   install_enable = true
 }
 
 ohos_prebuilt_etc("init.rpi3.usb.cfg") {
   source = "init.rpi3.usb.cfg"
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_images = [ vendor_base_dir ]
   install_enable = true
 }
 
 ohos_prebuilt_etc("fstab.rpi3") {
   source = "fstab.rpi3"
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_images = [ vendor_base_dir ]
   install_enable = true
 }
 
 ohos_prebuilt_etc("fstab.required") {
   source = "fstab.required"
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_images = [ ramdisk_base_dir, system_base_dir ]
   install_enable = true
 }
@@ -52,7 +52,7 @@ ohos_prebuilt_executable("init.modprobe.sh") {
   source = "init.modprobe.sh"
   module_install_dir = "etc/init"
   install_images = [ vendor_base_dir ]
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
 }
 
 group("init_configs") {

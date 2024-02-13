@@ -1,7 +1,7 @@
 {
-    "subsystem": "raspberrypi_products",
+    "subsystem": "device_rpi4",
     "parts": {
-        "raspberrypi_products": {
+        "device_rpi4": {
             "module_list": [
                 "//device/board/${product_company}/${device_name}:rpi4_group"
             ],

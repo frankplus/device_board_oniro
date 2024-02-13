@@ -38,14 +38,14 @@ ohos_executable("modetest") {
     "//third_party/libdrm:libdrm",
   ]
 
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_images = [ "system" ]
   install_enable = true
 }
 
 ohos_prebuilt_executable("gl_test") {
   source = "native_window_ohos/gl_test"
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_images = [ "system" ]
   install_enable = true
 }

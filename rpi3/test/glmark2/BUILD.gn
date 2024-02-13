@@ -24,14 +24,14 @@ foreach(item, res_files) {
         install_enable = true
         install_images = [ system_base_dir ]
         module_install_dir = "lib/glmark2/$path"
-        part_name = "raspberrypi_products"
+        part_name = "device_rpi4"
     }
     res_deps += [ ":$name" ]
 }
 
 ohos_prebuilt_executable("glmark2") {
   source = "glmark2-es2-ohos"
-  part_name = "raspberrypi_products"
+  part_name = "device_rpi4"
   install_images = [ "system" ]
   install_enable = true
 }

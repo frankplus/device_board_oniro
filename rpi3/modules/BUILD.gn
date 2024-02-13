@@ -24,7 +24,7 @@ foreach(item, modules_files) {
         install_enable = true
         install_images = [ system_base_dir ]
         module_install_dir = "$path"
-        part_name = "raspberrypi_products"
+        part_name = "device_rpi4"
     }
     modules_deps += [ ":$name" ]
 }
